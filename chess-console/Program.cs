@@ -1,4 +1,5 @@
-﻿using table;
+﻿using System;
+using table;
 
 namespace chess_console
 {
@@ -8,7 +9,7 @@ namespace chess_console
         {
             Table table = new Table(8, 8);
 
-            Console.WriteLine(table.ToString());
+            Screen.printTable(table);
 
             Console.ReadLine();
 
