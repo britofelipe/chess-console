@@ -6,11 +6,12 @@ namespace chess_console
     {
         static void Main(string[] args)
         {
-            Position P;
-            P = new Position(3, 4);
+            Table table = new Table(8, 8);
 
-            Console.WriteLine("Position: " + P);
+            Console.WriteLine(table.ToString());
+
             Console.ReadLine();
+
         }
     }
 }
