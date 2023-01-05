@@ -7,11 +7,12 @@
         public int quantityOfMovements { get; protected set; }
         public Table table { get; protected set; }
 
-        public Piece(Position position, Color color, Table table)
+        public Piece(Color color, Table table)
         {
-            this.position = position;
+            this.position = null;
             this.color = color;
             this.table = table;
+            this.quantityOfMovements = 0;
         }
     }
 }

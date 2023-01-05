@@ -1,5 +1,6 @@
 ﻿using System;
 using table;
+using chess;
 
 namespace chess_console
 {
@@ -7,9 +8,13 @@ namespace chess_console
     {
         static void Main(string[] args)
         {
-            Table table = new Table(8, 8);
+            Table tab = new Table(8, 8);
 
-            Screen.printTable(table);
+            tab.putPiece(new Tower(Color.Black, tab), new Position(0, 0));
+            tab.putPiece(new Tower(Color.Black, tab), new Position(1, 3));
+            tab.putPiece(new King(Color.Black, tab), new Position(2, 4));
+
+            Screen.printTable(tab);
 
             Console.ReadLine();
 
