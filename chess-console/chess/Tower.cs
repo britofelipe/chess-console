@@ -1,10 +1,10 @@
-﻿using table;
+﻿using board;
 
 namespace chess
 {
     internal class Tower : Piece
     {
-        public Tower(Color color, Table tab) : base(color, tab)
+        public Tower(Board tab, Color color) : base(tab, color)
         {
 
         }

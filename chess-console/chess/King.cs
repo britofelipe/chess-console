@@ -1,10 +1,10 @@
-﻿using table;
+﻿using board;
 
 namespace chess
 {
     internal class King : Piece
     {
-        public King(Color color, Table tab) : base(color, tab)
+        public King(Board tab, Color color) : base(tab, color)
         {
 
         }

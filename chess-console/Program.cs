@@ -1,5 +1,5 @@
 ﻿using System;
-using table;
+using board;
 using chess;
 
 namespace chess_console
@@ -8,16 +8,22 @@ namespace chess_console
     {
         static void Main(string[] args)
         {
-            Table tab = new Table(8, 8);
+            Board board = new Board(8, 8);
+            try
+            {
+                board.putPiece(new Tower(board, Color.Black), new Position(0, 0));
+                board.putPiece(new Tower(board, Color.Black), new Position(1, 3));
+                board.putPiece(new King(board, Color.Black), new Position(2, 4));
+                // board.putPiece(new Tower(board, Color.Black), new Position(0, 0));
+                board.putPiece(new Tower(board, Color.Black), new Position(0, 8));
 
-            tab.putPiece(new Tower(Color.Black, tab), new Position(0, 0));
-            tab.putPiece(new Tower(Color.Black, tab), new Position(1, 3));
-            tab.putPiece(new King(Color.Black, tab), new Position(2, 4));
-
-            Screen.printTable(tab);
-
+                Screen.printTable(board);
+            }
+            catch(BoardException e)
+            {
+                Console.WriteLine(e.Message);
+            }
             Console.ReadLine();
-
         }
     }
 }

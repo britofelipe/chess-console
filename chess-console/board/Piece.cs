@@ -1,17 +1,17 @@
-﻿namespace table
+﻿namespace board
 {
     internal class Piece
     {
-        public Position position { get; set; }
+        public Board board { get; protected set; }
         public Color color { get; set; }
+        public Position position { get; set; }
         public int quantityOfMovements { get; protected set; }
-        public Table table { get; protected set; }
-
-        public Piece(Color color, Table table)
+        
+        public Piece(Board board, Color color)
         {
             this.position = null;
             this.color = color;
-            this.table = table;
+            this.board = board;
             this.quantityOfMovements = 0;
         }
     }

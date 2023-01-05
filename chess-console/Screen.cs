@@ -1,12 +1,12 @@
 ﻿using System;
 
-using table;
+using board;
 
 namespace chess_console
 {
     internal class Screen
     {
-        public static void printTable(Table table)
+        public static void printTable(Board table)
         {
             for (int i = 0; i < table.rows; i++)
             {
