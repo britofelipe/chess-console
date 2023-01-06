@@ -16,10 +16,16 @@ namespace chess_console
                 while(!match.isMatchFinished)
                 {
                     Console.Clear();
-                    Screen.printTable(match.board);
+                    Screen.printBoard(match.board);
 
                     Console.Write("Origin: ");
                     Position origin = Screen.readChessPosition().toPosition();
+
+                    bool[,] possibleMoves = match.board.piece(origin).possibleMoves();
+
+                    Console.Clear();
+                    Screen.printBoard(match.board, possibleMoves);
+
                     Console.Write("Target: ");
                     Position target = Screen.readChessPosition().toPosition();
 

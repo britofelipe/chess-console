@@ -18,48 +18,48 @@
             return pieces[row, column];
         }
 
-        public Piece piece(Position pos)
+        public Piece piece(Position position)
         {
-            return pieces[pos.row, pos.column];
+            return pieces[position.row, position.column];
         }
 
-        public bool isTherePieceInPosition(Position pos)
+        public bool isTherePieceInPosition(Position position)
         {
-            validatePosition(pos);
-            return piece(pos) != null;
+            validatePosition(position);
+            return piece(position) != null;
         }
 
-        public void putPiece(Piece p, Position pos)
+        public void putPiece(Piece p, Position position)
         {
-            if (isTherePieceInPosition(pos))
+            if (isTherePieceInPosition(position))
             {
                 throw new BoardException("There is already a piece on this position!");
             }
-            pieces[pos.row, pos.column] = p;
-            p.position = pos;
+            pieces[position.row, position.column] = p;
+            p.position = position;
         }
 
-        public Piece removePiece(Position pos)
+        public Piece removePiece(Position position)
         {
-            if(piece(pos) == null)
+            if(piece(position) == null)
             {
                 return null;
             }
-            Piece aux = piece(pos);
+            Piece aux = piece(position);
             aux.position = null;
-            pieces[pos.row, pos.column] = null;
+            pieces[position.row, position.column] = null;
             return aux;
         }
 
-        public bool isPositionValid(Position pos)
+        public bool isPositionValid(Position position)
         {
-            if (pos.row < 0 || pos.column < 0 || pos.row >= rows || pos.column >= columns) return false;
+            if (position.row < 0 || position.column < 0 || position.row >= rows || position.column >= columns) return false;
             return true;
         }
 
-        public void validatePosition(Position pos)
+        public void validatePosition(Position position)
         {
-            if (!isPositionValid(pos))
+            if (!isPositionValid(position))
             {
                 throw new BoardException("Invalid position!");
             }
