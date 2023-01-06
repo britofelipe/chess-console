@@ -14,5 +14,10 @@
             this.board = board;
             this.quantityOfMovements = 0;
         }
+
+        public void incrementQuantityOfMoves()
+        {
+            quantityOfMovements++;
+        }
     }
 }

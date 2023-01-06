@@ -2,16 +2,16 @@
 
 namespace chess
 {
-    internal class Tower : Piece
+    internal class Rook : Piece
     {
-        public Tower(Board tab, Color color) : base(tab, color)
+        public Rook(Board tab, Color color) : base(tab, color)
         {
 
         }
 
         public override string ToString()
         {
-            return "T";
+            return "R";
         }
     }
 }
