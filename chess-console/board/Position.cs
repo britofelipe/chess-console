@@ -11,7 +11,7 @@
             this.column = column;
         }
 
-        public void defineValues(int row, int column)
+        public void setPosition(int row, int column)
         {
             this.row = row;
             this.column = column;

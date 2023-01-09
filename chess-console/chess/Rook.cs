@@ -20,58 +20,58 @@ namespace chess
             return piece == null || piece.color != color;
         }
 
-        public override bool[,] possibleMoves()
+        public override bool[,] validMoves()
         {
             bool[,] validMoves = new bool[board.rows, board.columns];
 
-            Position position = new Position(0, 0);
+            Position pos = new Position(0, 0);
 
             // North
-            position.defineValues(position.row - 1, position.column);
-            while (board.isPositionValid(position) && canMoveHere(position))
+            pos.setPosition(position.row - 1, position.column);
+            while (board.isPositionValid(pos) && canMoveHere(pos))
             {
-                validMoves[position.row, position.column] = true;
-                if(board.piece(position) != null && board.piece(position).color != color)
+                validMoves[pos.row, pos.column] = true;
+                if(board.piece(pos) != null && board.piece(pos).color != color)
                 {
                     break;
                 }
-                position.row = position.row - 1;
+                pos.row = pos.row - 1;
             }
 
             // East
-            position.defineValues(position.row, position.column + 1);
-            while (board.isPositionValid(position) && canMoveHere(position))
+            pos.setPosition(position.row, position.column + 1);
+            while (board.isPositionValid(pos) && canMoveHere(pos))
             {
-                validMoves[position.row, position.column] = true;
-                if (board.piece(position) != null && board.piece(position).color != color)
+                validMoves[pos.row, pos.column] = true;
+                if (board.piece(pos) != null && board.piece(pos).color != color)
                 {
                     break;
                 }
-                position.column = position.column + 1;
+                pos.column = pos.column + 1;
             }
 
             // South
-            position.defineValues(position.row + 1, position.column);
-            while (board.isPositionValid(position) && canMoveHere(position))
+            pos.setPosition(position.row + 1, position.column);
+            while (board.isPositionValid(pos) && canMoveHere(pos))
             {
-                validMoves[position.row, position.column] = true;
-                if (board.piece(position) != null && board.piece(position).color != color)
+                validMoves[pos.row, pos.column] = true;
+                if (board.piece(pos) != null && board.piece(pos).color != color)
                 {
                     break;
                 }
-                position.row = position.row + 1;
+                pos.row = pos.row + 1;
             }
 
             // West
-            position.defineValues(position.row, position.column - 1);
-            while (board.isPositionValid(position) && canMoveHere(position))
+            pos.setPosition(position.row, position.column - 1);
+            while (board.isPositionValid(pos) && canMoveHere(pos))
             {
-                validMoves[position.row, position.column] = true;
-                if (board.piece(position) != null && board.piece(position).color != color)
+                validMoves[pos.row, pos.column] = true;
+                if (board.piece(pos) != null && board.piece(pos).color != color)
                 {
                     break;
                 }
-                position.column = position.column - 1;
+                pos.column = pos.column - 1;
             }
 
             return validMoves;

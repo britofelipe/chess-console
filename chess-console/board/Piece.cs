@@ -20,6 +20,6 @@
             quantityOfMovements++;
         }
 
-        public abstract bool[,] possibleMoves();
+        public abstract bool[,] validMoves();
     }
 }

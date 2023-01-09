@@ -30,7 +30,7 @@ namespace chess_console
         public static void printBoard(Board table, bool[,] possibleMoves)
         {
             ConsoleColor originalBackground = Console.BackgroundColor;
-            ConsoleColor possibleMovesBackground = ConsoleColor.Magenta;
+            ConsoleColor possibleMovesBackground = ConsoleColor.DarkGray;
 
             for (int i = 0; i < table.rows; i++)
             {

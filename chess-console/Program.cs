@@ -21,10 +21,10 @@ namespace chess_console
                     Console.Write("Origin: ");
                     Position origin = Screen.readChessPosition().toPosition();
 
-                    bool[,] possibleMoves = match.board.piece(origin).possibleMoves();
+                    bool[,] validMoves = match.board.piece(origin).validMoves();
 
                     Console.Clear();
-                    Screen.printBoard(match.board, possibleMoves);
+                    Screen.printBoard(match.board, validMoves);
 
                     Console.Write("Target: ");
                     Position target = Screen.readChessPosition().toPosition();

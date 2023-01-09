@@ -20,59 +20,59 @@ namespace chess
             return p == null || p.color != color;
         }
 
-        public override bool[,] possibleMoves()
+        public override bool[,] validMoves()
         {
             bool[,] validMoves = new bool[board.rows, board.columns];
 
-            Position position = new Position(0, 0);
+            Position pos = new Position(0, 0);
 
             // North
-            position.defineValues(position.row - 1, position.column);
-            if (board.isPositionValid(position) && canMoveHere(position))
+            pos.setPosition(position.row - 1, position.column);
+            if (board.isPositionValid(pos) && canMoveHere(pos))
             {
-                validMoves[position.row, position.column] = true;
+                validMoves[pos.row, pos.column] = true;
             }
             // Northeast
-            position.defineValues(position.row - 1, position.column + 1);
-            if (board.isPositionValid(position) && canMoveHere(position))
+            pos.setPosition(position.row - 1, position.column + 1);
+            if (board.isPositionValid(pos) && canMoveHere(pos))
             {
-                validMoves[position.row, position.column] = true;
+                validMoves[pos.row, pos.column] = true;
             }
             // East
-            position.defineValues(position.row, position.column + 1);
-            if (board.isPositionValid(position) && canMoveHere(position))
+            pos.setPosition(position.row, position.column + 1);
+            if (board.isPositionValid(pos) && canMoveHere(pos))
             {
-                validMoves[position.row, position.column] = true;
+                validMoves[pos.row, pos.column] = true;
             }
             // Southeast
-            position.defineValues(position.row + 1, position.column + 1);
-            if (board.isPositionValid(position) && canMoveHere(position))
+            pos.setPosition(position.row + 1, position.column + 1);
+            if (board.isPositionValid(pos) && canMoveHere(pos))
             {
-                validMoves[position.row, position.column] = true;
+                validMoves[pos.row, pos.column] = true;
             }
             // South
-            position.defineValues(position.row + 1, position.column);
-            if (board.isPositionValid(position) && canMoveHere(position))
+            pos.setPosition(position.row + 1, position.column);
+            if (board.isPositionValid(pos) && canMoveHere(pos))
             {
-                validMoves[position.row, position.column] = true;
+                validMoves[pos.row, pos.column] = true;
             }
             // Southwest
-            position.defineValues(position.row + 1, position.column - 1);
-            if (board.isPositionValid(position) && canMoveHere(position))
+            pos.setPosition(position.row + 1, position.column - 1);
+            if (board.isPositionValid(pos) && canMoveHere(pos))
             {
-                validMoves[position.row, position.column] = true;
+                validMoves[pos.row, pos.column] = true;
             }
             // West
-            position.defineValues(position.row, position.column - 1);
-            if (board.isPositionValid(position) && canMoveHere(position))
+            pos.setPosition(position.row, position.column - 1);
+            if (board.isPositionValid(pos) && canMoveHere(pos))
             {
-                validMoves[position.row, position.column] = true;
+                validMoves[pos.row, pos.column] = true;
             }
             // Northwest
-            position.defineValues(position.row - 1, position.column - 1);
-            if (board.isPositionValid(position) && canMoveHere(position))
+            pos.setPosition(position.row - 1, position.column - 1);
+            if (board.isPositionValid(pos) && canMoveHere(pos))
             {
-                validMoves[position.row, position.column] = true;
+                validMoves[pos.row, pos.column] = true;
             }
 
             return validMoves;
