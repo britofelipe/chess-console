@@ -20,6 +20,27 @@
             quantityOfMovements++;
         }
 
+        public bool areThereValidMovesFromHere()
+        {
+            bool[,] possibleMoves = validMoves();
+            for(int i = 0; i < board.rows; i++)
+            {
+                for(int j = 0; j < board.columns; j++)
+                {
+                    if (possibleMoves[i, j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool isThisValidTarget(Position target)
+        {
+            return validMoves()[target.row, target.column];
+        }
+
         public abstract bool[,] validMoves();
     }
 }

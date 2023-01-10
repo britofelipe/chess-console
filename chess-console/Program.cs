@@ -15,21 +15,44 @@ namespace chess_console
 
                 while(!match.isMatchFinished)
                 {
-                    Console.Clear();
-                    Screen.printBoard(match.board);
+                    try
+                    {
+                        // Match
+                        Console.Clear();
+                        Screen.printBoard(match.board);
 
-                    Console.Write("Origin: ");
-                    Position origin = Screen.readChessPosition().toPosition();
+                        // Origin
+                        Console.WriteLine("Turn: " + match.turn);
+                        Console.WriteLine(match.currentPlayer + "'s turn");
+                        Console.WriteLine();
+                        Console.Write("Origin: ");
+                        Position origin = Screen.readChessPosition().toPosition();
 
-                    bool[,] validMoves = match.board.piece(origin).validMoves();
+                        match.validateOriginPosition(origin);
 
-                    Console.Clear();
-                    Screen.printBoard(match.board, validMoves);
+                        // Printing valid moves
+                        bool[,] validMoves = match.board.piece(origin).validMoves();
 
-                    Console.Write("Target: ");
-                    Position target = Screen.readChessPosition().toPosition();
+                        Console.Clear();
+                        Screen.printBoard(match.board, validMoves);
 
-                    match.move(origin, target);
+                        // Target
+                        Console.WriteLine("Turn: " + match.turn);
+                        Console.WriteLine(match.currentPlayer + "'s turn");
+                        Console.WriteLine();
+                        Console.Write("Target: ");
+                        Position target = Screen.readChessPosition().toPosition();
+
+                        match.validateTargetPosition(origin, target);
+
+                        // Make move
+                        match.move(origin, target);
+                    }
+                    catch(BoardException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Console.ReadLine();
+                    }
                 }
             }
             catch (BoardException e)
