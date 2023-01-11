@@ -8,17 +8,18 @@ namespace chess
         public Board board { get; private set; }
         public int turn { get; private set; }
         public Color currentPlayer { get; private set; }
-        public bool isMatchFinished { get; private set; }
+        public bool gameOver { get; private set; }
         private HashSet<Piece> gamePieces;
         private HashSet<Piece> capturedPieces;
-        public bool check {  get; private set; }
+        public bool check { get; private set; }
+        
 
         public ChessMatch()
         {
             board = new Board(8, 8);
             turn = 1;
             currentPlayer = Color.White;
-            isMatchFinished = false;
+            gameOver = false;
             gamePieces = new HashSet<Piece>();
             capturedPieces = new HashSet<Piece>();
             setGame();
@@ -27,20 +28,28 @@ namespace chess
         public void move(Position origin, Position target)
         {
             Piece capturedPiece = moveUtil(origin, target);
+
+            // Testing check for the current player
             if (isKingInCheck(currentPlayer))
             {
                 undoMove(origin, target, capturedPiece);
                 throw new BoardException("Not a valid move: your king will be in check!");
             }
+
+            // Testing check for the opponent
             if (isKingInCheck(opponentPlayer(currentPlayer)))
             {
                 check = true;
+                if (isCheckMate(opponentPlayer(currentPlayer)))
+                {
+                    gameOver = true;
+                    return;
+                }
             }
             else
             {
                 check = false;
             }
-
             turn++;
             nextPlayer();
         }
@@ -76,11 +85,11 @@ namespace chess
             {
                 throw new BoardException("There is not a piece on the chosen origin!");
             }
-            if(currentPlayer != board.piece(origin).color)
+            if (currentPlayer != board.piece(origin).color)
             {
                 throw new BoardException("The chosen piece is not yours!");
             }
-            if(!board.piece(origin).areThereValidMovesFromHere())
+            if (!board.piece(origin).areThereValidMovesFromHere())
             {
                 throw new BoardException("There are not valid moves for this piece");
             }
@@ -94,8 +103,10 @@ namespace chess
             }
         }
 
-        private void nextPlayer() { 
-            if (currentPlayer  == Color.White) {
+        private void nextPlayer()
+        {
+            if (currentPlayer == Color.White)
+            {
                 currentPlayer = Color.Black;
             }
             else
@@ -121,7 +132,7 @@ namespace chess
         public HashSet<Piece> playerCapturedPieces(Color color)
         {
             HashSet<Piece> playerCapturedPieces = new HashSet<Piece>();
-            foreach(Piece piece in capturedPieces)
+            foreach (Piece piece in capturedPieces)
             {
                 if (piece.color == color)
                 {
@@ -145,9 +156,9 @@ namespace chess
 
         private Piece king(Color color)
         {
-            foreach(Piece piece in playerGamePieces(color))
+            foreach (Piece piece in playerGamePieces(color))
             {
-                if(piece is King)
+                if (piece is King)
                 {
                     return piece;
                 }
@@ -163,7 +174,7 @@ namespace chess
                 throw new BoardException("There is no " + color + " king on the board!");
             }
 
-            foreach(Piece piece in playerGamePieces(opponentPlayer(color)))
+            foreach (Piece piece in playerGamePieces(opponentPlayer(color)))
             {
                 bool[,] possibleMoves = piece.validMoves();
                 if (possibleMoves[k.position.row, k.position.column] == true)
@@ -172,6 +183,33 @@ namespace chess
                 }
             }
             return false;
+        }
+
+        public bool isCheckMate(Color color)
+        {
+            foreach (Piece piece in playerGamePieces(color))
+            {
+                bool[,] possibleMoves = piece.validMoves();
+                for (int i = 0; i < board.rows; i++)
+                {
+                    for (int j = 0; j < board.columns; j++)
+                    {
+                        if (possibleMoves[i, j])
+                        {
+                            Position origin = piece.position;
+                            Position possibleTarget = new Position(i, j);
+                            Piece capturedPiece = moveUtil(piece.position, possibleTarget);
+                            bool isStillCheck = isKingInCheck(color);
+                            undoMove(origin, possibleTarget, capturedPiece);
+                            if(!isStillCheck)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
         }
 
         public void setNewPiece(Piece piece, char column, int row)

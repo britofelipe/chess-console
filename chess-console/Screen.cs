@@ -22,11 +22,30 @@ namespace chess_console
             if(match.check)
             {
                 ConsoleColor checkColor = ConsoleColor.DarkRed;
+                ConsoleColor blackColor = ConsoleColor.DarkCyan;
                 ConsoleColor normalColor = Console.ForegroundColor;
 
-                Console.ForegroundColor = checkColor;
-                Console.WriteLine("CHECK!");
-
+                if(match.gameOver)
+                {
+                    Console.ForegroundColor = checkColor;
+                    Console.WriteLine("CHECK MATE!");
+                    
+                    if(match.currentPlayer == Color.White)
+                    {
+                        Console.ForegroundColor = normalColor;
+                        Console.WriteLine("WHITE WINS!");
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = blackColor;
+                        Console.WriteLine("BLACK WINS!");
+                    }
+                }
+                else
+                {
+                    Console.ForegroundColor = checkColor;
+                    Console.WriteLine("CHECK!");
+                }
                 Console.ForegroundColor = normalColor;
             }
         }

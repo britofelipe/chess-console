@@ -13,7 +13,7 @@ namespace chess_console
             {
                 ChessMatch match = new ChessMatch();
 
-                while(!match.isMatchFinished)
+                while(!match.gameOver)
                 {
                     try
                     {
@@ -48,6 +48,9 @@ namespace chess_console
                         Console.ReadLine();
                     }
                 }
+                // GameOver
+                Console.Clear();
+                Screen.printMatch(match);
             }
             catch (BoardException e)
             {
