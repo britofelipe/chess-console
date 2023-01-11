@@ -19,12 +19,9 @@ namespace chess_console
                     {
                         // Match
                         Console.Clear();
-                        Screen.printBoard(match.board);
+                        Screen.printMatch(match);
 
                         // Origin
-                        Console.WriteLine("Turn: " + match.turn);
-                        Console.WriteLine(match.currentPlayer + "'s turn");
-                        Console.WriteLine();
                         Console.Write("Origin: ");
                         Position origin = Screen.readChessPosition().toPosition();
 
@@ -34,12 +31,9 @@ namespace chess_console
                         bool[,] validMoves = match.board.piece(origin).validMoves();
 
                         Console.Clear();
-                        Screen.printBoard(match.board, validMoves);
+                        Screen.printMatch(match);
 
                         // Target
-                        Console.WriteLine("Turn: " + match.turn);
-                        Console.WriteLine(match.currentPlayer + "'s turn");
-                        Console.WriteLine();
                         Console.Write("Target: ");
                         Position target = Screen.readChessPosition().toPosition();
 
