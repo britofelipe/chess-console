@@ -31,7 +31,7 @@ namespace chess_console
                         bool[,] validMoves = match.board.piece(origin).validMoves();
 
                         Console.Clear();
-                        Screen.printMatch(match);
+                        Screen.printMatch(match, validMoves);
 
                         // Target
                         Console.Write("Target: ");

@@ -28,9 +28,52 @@ namespace chess_console
                 if(match.gameOver)
                 {
                     Console.ForegroundColor = checkColor;
-                    Console.WriteLine("CHECK MATE!");
+                    Console.WriteLine("CHECKMATE!");
                     
                     if(match.currentPlayer == Color.White)
+                    {
+                        Console.ForegroundColor = normalColor;
+                        Console.WriteLine("WHITE WINS!");
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = blackColor;
+                        Console.WriteLine("BLACK WINS!");
+                    }
+                }
+                else
+                {
+                    Console.ForegroundColor = checkColor;
+                    Console.WriteLine("CHECK!");
+                }
+                Console.ForegroundColor = normalColor;
+            }
+        }
+
+        public static void printMatch(ChessMatch match, bool[,] validMoves)
+        {
+            printBoard(match.board, validMoves);
+
+            // Turn
+            Console.WriteLine("TURN " + match.turn);
+            Console.WriteLine(match.currentPlayer + "'s turn");
+
+            // Captured pieces
+            printCapturedPieces(match);
+
+            Console.WriteLine();
+            if (match.check)
+            {
+                ConsoleColor checkColor = ConsoleColor.DarkRed;
+                ConsoleColor blackColor = ConsoleColor.DarkCyan;
+                ConsoleColor normalColor = Console.ForegroundColor;
+
+                if (match.gameOver)
+                {
+                    Console.ForegroundColor = checkColor;
+                    Console.WriteLine("CHECKMATE!");
+
+                    if (match.currentPlayer == Color.White)
                     {
                         Console.ForegroundColor = normalColor;
                         Console.WriteLine("WHITE WINS!");

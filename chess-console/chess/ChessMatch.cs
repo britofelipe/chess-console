@@ -220,21 +220,55 @@ namespace chess
 
         public void setGame()
         {
-            // WHITE PIECES --------------------- 
+            // WHITE PIECES ----------------------------------------------------
             // King
             setNewPiece(new King(board, Color.White), 'e', 1);
+
+            // Queen
+            setNewPiece(new Queen(board, Color.White), 'd', 1);
 
             // Rooks
             setNewPiece(new Rook(board, Color.White), 'a', 1);
             setNewPiece(new Rook(board, Color.White), 'h', 1);
 
-            // BLACK PIECES ---------------------
+            // Bishops
+            setNewPiece(new Bishop(board, Color.White), 'c', 1);
+            setNewPiece(new Bishop(board, Color.White), 'f', 1);
+
+            // Knights
+            setNewPiece(new Knight(board, Color.White), 'b', 1);
+            setNewPiece(new Knight(board, Color.White), 'g', 1);
+
+            // Pawns
+            for (char i = 'a'; i < 'i'; i++)
+            {
+                setNewPiece(new Pawn(board, Color.White), i, 2);
+            }
+
+            // BLACK PIECES --------------------------------------------------
             // King
             setNewPiece(new King(board, Color.Black), 'e', 8);
+
+            // Queen
+            setNewPiece(new Queen(board, Color.Black), 'd', 8);
 
             // Rooks
             setNewPiece(new Rook(board, Color.Black), 'a', 8);
             setNewPiece(new Rook(board, Color.Black), 'h', 8);
+
+            // Bishops
+            setNewPiece(new Bishop(board, Color.Black), 'c', 8);
+            setNewPiece(new Bishop(board, Color.Black), 'f', 8);
+
+            // Knights
+            setNewPiece(new Knight(board, Color.Black), 'b', 8);
+            setNewPiece(new Knight(board, Color.Black), 'g', 8);
+
+            // Pawns
+            for (char i = 'a'; i < 'i'; i++)
+            {
+                setNewPiece(new Pawn(board, Color.Black), i, 7);
+            }
         }
     }
 }
