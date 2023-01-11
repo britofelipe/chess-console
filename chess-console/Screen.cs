@@ -10,7 +10,7 @@ namespace chess_console
         public static void printMatch(ChessMatch match)
         {
             printBoard(match.board);
-
+            
             // Turn
             Console.WriteLine("TURN " + match.turn);
             Console.WriteLine(match.currentPlayer + "'s turn");
@@ -19,6 +19,16 @@ namespace chess_console
             printCapturedPieces(match);
 
             Console.WriteLine();
+            if(match.check)
+            {
+                ConsoleColor checkColor = ConsoleColor.DarkRed;
+                ConsoleColor normalColor = Console.ForegroundColor;
+
+                Console.ForegroundColor = checkColor;
+                Console.WriteLine("CHECK!");
+
+                Console.ForegroundColor = normalColor;
+            }
         }
         public static void printBoard(Board table)
         {

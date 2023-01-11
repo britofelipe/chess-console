@@ -11,6 +11,7 @@ namespace chess
         public bool isMatchFinished { get; private set; }
         private HashSet<Piece> gamePieces;
         private HashSet<Piece> capturedPieces;
+        public bool check {  get; private set; }
 
         public ChessMatch()
         {
@@ -25,21 +26,48 @@ namespace chess
 
         public void move(Position origin, Position target)
         {
-            moveUtil(origin, target);
+            Piece capturedPiece = moveUtil(origin, target);
+            if (isKingInCheck(currentPlayer))
+            {
+                undoMove(origin, target, capturedPiece);
+                throw new BoardException("Not a valid move: your king will be in check!");
+            }
+            if (isKingInCheck(opponentPlayer(currentPlayer)))
+            {
+                check = true;
+            }
+            else
+            {
+                check = false;
+            }
+
             turn++;
             nextPlayer();
         }
 
-        public void moveUtil(Position origin, Position target)
+        public Piece moveUtil(Position origin, Position target)
         {
             Piece p = board.removePiece(origin);
             p.incrementQuantityOfMoves();
             Piece capturedPiece = board.removePiece(target);
+            board.putPiece(p, target);
             if (capturedPiece != null)
             {
                 capturedPieces.Add(capturedPiece);
             }
-            board.putPiece(p, target);
+            return capturedPiece;
+        }
+
+        public void undoMove(Position origin, Position target, Piece capturedPiece)
+        {
+            Piece p = board.removePiece(target);
+            p.decrementQuantityOfMoves();
+            board.putPiece(p, origin);
+            if (capturedPiece != null)
+            {
+                board.putPiece(capturedPiece, target);
+                capturedPieces.Remove(capturedPiece);
+            }
         }
 
         public void validateOriginPosition(Position origin)
@@ -101,6 +129,49 @@ namespace chess
                 }
             }
             return playerCapturedPieces;
+        }
+
+        private Color opponentPlayer(Color color)
+        {
+            if (color == Color.White)
+            {
+                return Color.Black;
+            }
+            else
+            {
+                return Color.White;
+            }
+        }
+
+        private Piece king(Color color)
+        {
+            foreach(Piece piece in playerGamePieces(color))
+            {
+                if(piece is King)
+                {
+                    return piece;
+                }
+            }
+            return null;
+        }
+
+        public bool isKingInCheck(Color color)
+        {
+            Piece k = king(color);
+            if (k == null)
+            {
+                throw new BoardException("There is no " + color + " king on the board!");
+            }
+
+            foreach(Piece piece in playerGamePieces(opponentPlayer(color)))
+            {
+                bool[,] possibleMoves = piece.validMoves();
+                if (possibleMoves[k.position.row, k.position.column] == true)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void setNewPiece(Piece piece, char column, int row)

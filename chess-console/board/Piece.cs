@@ -20,6 +20,11 @@
             quantityOfMovements++;
         }
 
+        public void decrementQuantityOfMoves()
+        {
+            quantityOfMovements--;
+        }
+
         public bool areThereValidMovesFromHere()
         {
             bool[,] possibleMoves = validMoves();
