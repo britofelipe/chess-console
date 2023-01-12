@@ -12,7 +12,7 @@ namespace chess
         private HashSet<Piece> gamePieces;
         private HashSet<Piece> capturedPieces;
         public bool check { get; private set; }
-        
+
 
         public ChessMatch()
         {
@@ -64,6 +64,27 @@ namespace chess
             {
                 capturedPieces.Add(capturedPiece);
             }
+
+            // Checks for Castle
+            // Kingside Castle
+            if (p is King && target.column == origin.column + 2)
+            {
+                Position rookOrigin = new Position(origin.row, origin.column + 3);
+                Position rookTarget = new Position(origin.row, origin.column + 1);
+                Piece rook = board.removePiece(rookOrigin);
+                rook.incrementQuantityOfMoves();
+                board.putPiece(rook, rookTarget);
+            }
+            // Queenside Castle
+            else if (p is King && target.column == origin.column - 2)
+            {
+                Position rookOrigin = new Position(origin.row, origin.column - 4);
+                Position rookTarget = new Position(origin.row, origin.column - 1);
+                Piece rook = board.removePiece(rookOrigin);
+                rook.incrementQuantityOfMoves();
+                board.putPiece(rook, rookTarget);
+            }
+
             return capturedPiece;
         }
 
@@ -76,6 +97,26 @@ namespace chess
             {
                 board.putPiece(capturedPiece, target);
                 capturedPieces.Remove(capturedPiece);
+            }
+
+            // Checks for Castle
+            // Kingside Castle
+            if (p is King && target.column == origin.column + 2)
+            {
+                Position rookOrigin = new Position(origin.row, origin.column + 3);
+                Position rookTarget = new Position(origin.row, origin.column + 1);
+                Piece rook = board.removePiece(rookTarget);
+                rook.decrementQuantityOfMoves();
+                board.putPiece(rook, rookOrigin);
+            }
+            // Queenside Castle
+            else if (p is King && target.column == origin.column - 2)
+            {
+                Position rookOrigin = new Position(origin.row, origin.column - 4);
+                Position rookTarget = new Position(origin.row, origin.column - 1);
+                Piece rook = board.removePiece(rookTarget);
+                rook.decrementQuantityOfMoves();
+                board.putPiece(rook, rookOrigin);
             }
         }
 
@@ -201,7 +242,7 @@ namespace chess
                             Piece capturedPiece = moveUtil(piece.position, possibleTarget);
                             bool isStillCheck = isKingInCheck(color);
                             undoMove(origin, possibleTarget, capturedPiece);
-                            if(!isStillCheck)
+                            if (!isStillCheck)
                             {
                                 return false;
                             }
@@ -222,7 +263,7 @@ namespace chess
         {
             // WHITE PIECES ----------------------------------------------------
             // King
-            setNewPiece(new King(board, Color.White), 'e', 1);
+            setNewPiece(new King(board, Color.White, this), 'e', 1);
 
             // Queen
             setNewPiece(new Queen(board, Color.White), 'd', 1);
@@ -247,7 +288,7 @@ namespace chess
 
             // BLACK PIECES --------------------------------------------------
             // King
-            setNewPiece(new King(board, Color.Black), 'e', 8);
+            setNewPiece(new King(board, Color.Black, this), 'e', 8);
 
             // Queen
             setNewPiece(new Queen(board, Color.Black), 'd', 8);
