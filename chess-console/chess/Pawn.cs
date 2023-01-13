@@ -9,9 +9,10 @@ namespace chess
 {
     internal class Pawn : Piece
     {
-        public Pawn(Board board, Color color) : base(board, color)
+        private ChessMatch match;
+        public Pawn(Board board, Color color, ChessMatch match) : base(board, color)
         {
-
+            this.match = match;
         }
 
         public override string ToString()
@@ -42,7 +43,7 @@ namespace chess
 
             Position pos = new Position(0, 0);
 
-            if(color == Color.White)
+            if (color == Color.White)
             {
                 // North
                 pos.setPosition(position.row - 1, position.column);
@@ -67,6 +68,26 @@ namespace chess
                 if (board.isPositionValid(pos) && isThereOpponentPieceHere(pos))
                 {
                     validMoves[pos.row, pos.column] = true;
+                }
+
+                // Special move: En passant
+                if (position.row == 3)
+                {
+                    Position possibleTargetEnPassantLeft = new Position(position.row, position.column - 1);
+                    Position possibleTargetEnPassantRight = new Position(position.row, position.column + 1);
+
+                    if (board.isPositionValid(possibleTargetEnPassantLeft) &&
+                        isThereOpponentPieceHere(possibleTargetEnPassantLeft) &&
+                        board.piece(possibleTargetEnPassantLeft) == match.possiblePawnForEnPassant)
+                    {
+                        validMoves[possibleTargetEnPassantLeft.row - 1, possibleTargetEnPassantLeft.column] = true;
+                    }
+                    else if (board.isPositionValid(possibleTargetEnPassantRight) &&
+                        isThereOpponentPieceHere(possibleTargetEnPassantRight) &&
+                        board.piece(possibleTargetEnPassantRight) == match.possiblePawnForEnPassant)
+                    {
+                        validMoves[possibleTargetEnPassantRight.row - 1, possibleTargetEnPassantRight.column] = true;
+                    }
                 }
             }
             else
@@ -95,8 +116,26 @@ namespace chess
                 {
                     validMoves[pos.row, pos.column] = true;
                 }
-            }
 
+                if (position.row == 4)
+                {
+                    Position possibleTargetEnPassantLeft = new Position(position.row, position.column - 1);
+                    Position possibleTargetEnPassantRight = new Position(position.row, position.column + 1);
+
+                    if (board.isPositionValid(possibleTargetEnPassantLeft) &&
+                        isThereOpponentPieceHere(possibleTargetEnPassantLeft) &&
+                        board.piece(possibleTargetEnPassantLeft) == match.possiblePawnForEnPassant)
+                    {
+                        validMoves[possibleTargetEnPassantLeft.row + 1, possibleTargetEnPassantLeft.column] = true;
+                    }
+                    else if (board.isPositionValid(possibleTargetEnPassantRight) &&
+                        isThereOpponentPieceHere(possibleTargetEnPassantRight) &&
+                        board.piece(possibleTargetEnPassantRight) == match.possiblePawnForEnPassant)
+                    {
+                        validMoves[possibleTargetEnPassantRight.row + 1, possibleTargetEnPassantRight.column] = true;
+                    }
+                }
+            }
 
             return validMoves;
         }

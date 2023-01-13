@@ -12,6 +12,7 @@ namespace chess
         private HashSet<Piece> gamePieces;
         private HashSet<Piece> capturedPieces;
         public bool check { get; private set; }
+        public Piece possiblePawnForEnPassant { get; private set; }
 
 
         public ChessMatch()
@@ -22,6 +23,7 @@ namespace chess
             gameOver = false;
             gamePieces = new HashSet<Piece>();
             capturedPieces = new HashSet<Piece>();
+            possiblePawnForEnPassant = null;
             setGame();
         }
 
@@ -50,6 +52,15 @@ namespace chess
             {
                 check = false;
             }
+
+            // Checks for en passant
+            Piece p = board.piece(target);
+
+            if (p is Pawn && target.row == origin.row - 2 || target.row == origin.row + 2)
+            {
+                possiblePawnForEnPassant = p;
+            }
+
             turn++;
             nextPlayer();
         }
@@ -85,6 +96,22 @@ namespace chess
                 board.putPiece(rook, rookTarget);
             }
 
+            // Checks for en passant
+            
+            if(p is Pawn && origin.column != target.column && capturedPiece == null)
+            {
+                Position capturedPawnEnPassantPosition;
+                if(p.color == Color.White)
+                {
+                    capturedPawnEnPassantPosition = new Position(target.row + 1, target.column);
+                }
+                else
+                {
+                    capturedPawnEnPassantPosition = new Position(target.row - 1, target.column);
+                }
+                capturedPiece = board.removePiece(capturedPawnEnPassantPosition);
+            }
+
             return capturedPiece;
         }
 
@@ -117,6 +144,25 @@ namespace chess
                 Piece rook = board.removePiece(rookTarget);
                 rook.decrementQuantityOfMoves();
                 board.putPiece(rook, rookOrigin);
+            }
+
+            // Checks for en passant
+            if (p is Pawn)
+            {
+                if(origin.column != target.column && capturedPiece == possiblePawnForEnPassant)
+                {
+                    Piece pawn = board.removePiece(target);
+                    Position pawnPosition;
+                    if (p.color == Color.White)
+                    {
+                        pawnPosition = new Position(3, target.column);
+                    }
+                    else
+                    {
+                        pawnPosition = new Position(4, target.column);
+                    }
+                    board.putPiece(pawn, pawnPosition);
+                }
             }
         }
 
@@ -283,7 +329,7 @@ namespace chess
             // Pawns
             for (char i = 'a'; i < 'i'; i++)
             {
-                setNewPiece(new Pawn(board, Color.White), i, 2);
+                setNewPiece(new Pawn(board, Color.White, this), i, 2);
             }
 
             // BLACK PIECES --------------------------------------------------
@@ -308,7 +354,7 @@ namespace chess
             // Pawns
             for (char i = 'a'; i < 'i'; i++)
             {
-                setNewPiece(new Pawn(board, Color.Black), i, 7);
+                setNewPiece(new Pawn(board, Color.Black, this), i, 7);
             }
         }
     }
