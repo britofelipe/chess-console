@@ -31,6 +31,28 @@ namespace chess
         {
             Piece capturedPiece = moveUtil(origin, target);
 
+            Piece p = board.piece(target);
+
+            // Testing for promotion
+            if (p is Pawn)
+            {
+                if ((p.color == Color.White && target.row == 0 || p.color == Color.Black && target.row == 7))
+                {
+                    p = board.removePiece(target);
+                    gamePieces.Remove(p);
+                    Piece queen = new Queen(board, p.color);
+                    board.putPiece(queen, target);
+                    gamePieces.Add(queen);
+                }
+            }
+
+            // Checks for en passant
+
+            if (p is Pawn && target.row == origin.row - 2 || target.row == origin.row + 2)
+            {
+                possiblePawnForEnPassant = p;
+            }
+
             // Testing check for the current player
             if (isKingInCheck(currentPlayer))
             {
@@ -51,14 +73,6 @@ namespace chess
             else
             {
                 check = false;
-            }
-
-            // Checks for en passant
-            Piece p = board.piece(target);
-
-            if (p is Pawn && target.row == origin.row - 2 || target.row == origin.row + 2)
-            {
-                possiblePawnForEnPassant = p;
             }
 
             turn++;
